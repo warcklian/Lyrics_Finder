@@ -2,10 +2,16 @@ from googlesearch import search
 import requests
 from bs4 import BeautifulSoup
 
-def buscar_letra(cancion):
-    # Término de búsqueda solo con el nombre de la canción
-    query = f"{cancion} lyrics"
-    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36'}
+def buscar_letra(cancion, artista=None):
+    # Construir el término de búsqueda según los parámetros proporcionados
+    if artista:
+        query = f"{cancion} {artista} lyrics"
+    else:
+        query = f"{cancion} lyrics"
+    
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36'
+    }
 
     # Iterar sobre múltiples resultados de Google
     for enlace in search(query, num_results=10):
@@ -42,9 +48,11 @@ def extraer_letra(url):
             return letra_div.get_text(separator="\n")
     return None
 
-# Solicitar al usuario el nombre de la canción sin el artista
+# Solicitar al usuario el nombre de la canción
 cancion = input("Ingrese el nombre de la canción: ")
+# Solicitar al usuario el nombre del artista
+artista = input("Ingrese el nombre del artista (opcional): ")
 
-# Buscar la letra basándose solo en el nombre de la canción
-print(f"Buscando letra para la canción '{cancion}'...")
-print(buscar_letra(cancion))
+# Buscar la letra basándose en los datos ingresados
+print(f"Buscando letra para la canción '{cancion}' de '{artista if artista else 'artista desconocido'}'...")
+print(buscar_letra(cancion, artista))
