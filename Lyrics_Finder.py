@@ -8,7 +8,7 @@ def buscar_letra(cancion):
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36'}
 
     # Iterar sobre múltiples resultados de Google
-    for enlace in search(query, num_results=10):
+    for enlace in search(query):  # Se eliminó el argumento num_results
         if any(site in enlace for site in ["letras.com", "musixmatch.com", "genius.com"]):
             print(f"Intentando obtener la letra desde: {enlace}")
             letra = extraer_letra(enlace)
